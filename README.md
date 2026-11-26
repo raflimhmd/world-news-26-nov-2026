@@ -53,8 +53,17 @@ this build used):
 node image-source/make-image.mjs
 ```
 
-Both the render and the program are run twice in this repository's tests; the two runs write
-identical bytes.
+Both the render and the program were run twice while the entry was built; the two renders wrote
+identical bytes (275665 bytes, sha256 `3bf6a2eed6d0bcf13c0709a77fe1424a7c7f47fe7627441763fca1609c3e3f93`),
+and `main.ts` read the committed `entry.png`, checked it, and wrote it back byte for byte.
+
+## How the page is checked before it ships
+
+The layout was measured in the browser it is rendered in: every region block, scene card, the lead
+copy, the numbers panel and the footer were tested for overflow (`scrollHeight` against
+`clientHeight`), so no headline is clipped and no line hangs. The renderer refuses a screenshot that
+is not exactly 1024 by 1024, and `main.ts` refuses a PNG over the bounty's caps or one whose pixel
+data does not inflate to the length its header promises.
 
 ## Entered in the bounty
 
